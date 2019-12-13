@@ -1,0 +1,60 @@
+ async function getURL() {
+          let request = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json',
+                      'x-access-token': token,
+          },
+            redirect: 'follow'
+          }
+            const serverReturn = await fetch('https://mysqlcs639.cs.wisc.edu/application' ,request) 
+            const serverResponse = await serverReturn.json()
+            console.log("In split url")
+            var splitUrl = serverResponse.page.split('/')
+            console.log(splitUrl)
+          return splitUrl;
+      }
+
+        async function getReview(id,category_info)
+        {
+          let request = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json',
+                      'x-access-token': token,
+          },
+            redirect: 'follow'
+          }
+          try {
+            console.log('https://mysqlcs639.cs.wisc.edu/products/' + parseInt(id) + '/reviews')
+            const serverReturn = await fetch('https://mysqlcs639.cs.wisc.edu/products/' + parseInt(id) + '/reviews' ,request) 
+            const serverResponse = await serverReturn.json()
+            console.log(serverReturn.status)
+            console.log(serverResponse)
+            agent.add("hello")
+          }
+            catch(e) {
+              console.log(e);
+              return [null, e]
+            }
+           
+          }
+
+        async function productInfo() {
+          postUserMessage(agent)
+          let splitUrl = getURL();
+          console.log(splitUrl)
+          console.log(splitUrl.length)
+
+          if(splitUrl.length === 5)
+            {
+              var id = splitUrl[4]
+              var category_info = splitUrl[2]
+              //getReview(id,category_info)
+              agent.add("Here")
+            }
+            else{
+              let text = "Sorry! It seems like you are not on the product page. Navigate to the product page for more information"
+              postMessage(text)
+              agent.add(text)
+            }
+           
+          }
